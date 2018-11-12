@@ -1,0 +1,8 @@
+---
+- name: synchronize the sources.list of apt
+  hosts: wordpress2
+  tasks:
+    - name: moves non-debian mirrors to external file 
+      script: ../files/move_to_external.sh 
+      tags:
+        - skript

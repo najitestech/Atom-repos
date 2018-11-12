@@ -1,0 +1,7 @@
+---
+- hosts: wordpress3 
+  gather_facts: false 
+  become_method: yes
+  roles:
+    - wp-dependencies
+    - wp-install-config

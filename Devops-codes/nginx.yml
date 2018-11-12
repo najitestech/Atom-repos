@@ -1,0 +1,17 @@
+---
+- name: About to install nginx
+  hosts: Test_Envi
+  gether_facts: true
+  become_method: yes
+  tasks:
+  - name: Installing nginx
+    yum: name=nginx state=present enabled=yes
+    when: ansible_distribution == "CentOS"
+    tags: nginx
+
+  - name: Installing nginx
+    apt: name=nginx state=present enabled=yes
+    when: ansible_distribution == "Ubuntu" or "Debian"
+    tags: nginx
+    debug:
+        msg: Done!

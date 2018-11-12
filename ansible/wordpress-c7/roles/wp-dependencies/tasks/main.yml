@@ -1,0 +1,41 @@
+---
+- name: Update yum cache
+  yum: name=* state=latest # update_cache=yes  
+
+- name: Install required softwares
+  yum: name={{ item }} state=present
+  with_items:
+    - httpd
+    - mariadb-server
+    - mariadb
+    - php
+    - php-mysql
+    - MySQL-python
+    - php-gd
+    - php-ldap
+    - php-odbc
+    - php-pear
+    - php-xml
+    - php-xmlrpc
+    - php-mbstring
+    - php-snmp
+    - php-soap
+    - curl
+    - wget
+    - rpcbind
+
+- name: Copy ~/.my.cnf to nodes
+  copy: src=/root/.my.cnf dest=/root/.my.cnf
+
+- name: Ensure MariaDB is running (and enable it at boot)
+  service: name=mariadb state=started enabled=yes
+
+- name: Create MariaDB database
+  mysql_db: name={{ wp_mysql_db }} state=present
+
+- name: Create MariaDB username and password
+  mysql_user:
+    name={{ wp_mysql_user }}
+    password={{ wp_mysql_password }}
+    priv=*.*:ALL
+# tasks file for wp-dependencies

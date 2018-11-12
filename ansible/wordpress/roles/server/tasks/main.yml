@@ -1,0 +1,29 @@
+---
+- name: Update apt cache
+  apt: update_cache=yes cache_valid_time=3600
+  sudo: yes
+
+- name: Install required software
+  apt: name={{ item }} state=present
+  with_items:
+    - apache2
+    - mysql-server
+    - php
+    - php-mysql
+    - python-mysqldb
+    - python3-pip
+    - python3-mysqldb
+    - python3-dev
+
+- name: Install packages required for ansible mysql modules on Ubuntu 16.04
+  apt: name={{ item }} state=present
+  with_items:
+    - libmysqlclient-dev
+  when: ansible_lsb.major_release|int >= 16
+
+- name: Install MySQL-client
+  apt:
+  name: "{{ item }}"
+  with_items:
+    - mariadb-client-core-10.1
+    - mysql-client-core-5.7

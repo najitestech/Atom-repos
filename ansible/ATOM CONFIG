@@ -1,0 +1,46 @@
+"*":
+  core:
+    ignoredNames: [
+      ".yml"
+      ".yam .tf"
+      ".py"
+    ]
+    telemetryConsent: "no"
+    themes: [
+      "one-dark-ui"
+      "spacegray-atom-dark-syntax"
+    ]
+  editor:
+    fontFamily: "roboto mono"
+    fontSize: 16
+    scrollPastEnd: true
+    showIndentGuide: true
+    tabLength: 4
+  "exception-reporting":
+    userId: "0427b642-7081-4cb0-8385-cde8ac5c3661"
+  "git-plus":
+    remoteInteractions:
+      pullBeforePush: true
+  "linter-js-yaml":
+    customTags: [
+      "!secret"
+      "!yaml"
+      "!include"
+      "!include_dir_list"
+      "!include_dir_named"
+      "!include_dir_merge_list"
+      "!include_dir_merge_named"
+    ]
+  "linter-ui-default":
+    panelHeight: 300
+    showPanel: true
+  "remote-atom":
+    keep_alive: true
+    launch_at_startup: true
+  "remote-ftp":
+    beta:
+      multipleHosts: true
+    connector: {}
+  "tree-view":
+    hideIgnoredNames: true
+    hideVcsIgnoredFiles: true

@@ -1,0 +1,6 @@
+---
+wp_mysql_db: wordpress
+wp_mysql_user: root
+wp_mysql_password: Passwd@
+
+# defaults file for wp-dependencies

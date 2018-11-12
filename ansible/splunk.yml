@@ -1,0 +1,38 @@
+---
+- name: provision splunk server
+  hosts: splunk
+  become_method: yes
+  gather_facts: yes
+  tasks:
+
+
+  - name: Install updates
+    apt: update_cache=yes 
+
+  - name: Create directory to download WordPress
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: root
+      group: root
+      mode: 0775
+    with_items:
+      - /tmp/splunk.db  
+
+  - name: Upload splunk installation file
+    copy: src=/root/splunk-7.1.2-a0c72a66db66-Linux-x86_64.tgz dest=/root
+  
+  - name: Install splunk binary
+    tags:
+     - install
+    apt: wget=/root
+
+  - name: Aceept license
+    tags:
+     - install
+    shell: /otp/splunk/bin/splunk start --accept-license --answer-yes
+
+  - name: Enable init scrip
+    tags:
+     - install
+    shell: /otp/splunk/bin/splunk enable boot-start   

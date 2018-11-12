@@ -1,0 +1,32 @@
+---
+- name: Create directory to download WordPress
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0775
+  with_items:
+    - /opt/source/wordpress
+
+- name: Download WordPress
+  get_url: url=https://www.wordpress.org/latest.tar.gz dest=/opt/source/wordpress/wordpress.tar.gz validate_certs=no
+
+- name: Extract WordPress
+  unarchive: src=/opt/source/wordpress/wordpress.tar.gz dest=/var/www/html/ copy=no 
+
+- name: Send config file
+  copy: src=/root/wp-config-sample.php dest=/var/www/html/wp-config.php mode=0775
+
+
+- name: start the httpd service
+  service: name=httpd state=started
+
+- name: Open port 80
+  firewalld: service=http permanent=true state=enabled
+
+- name: start the firewalld service
+  service: name=firewalld state=restarted
+
+
+# tasks file for wp-install-config

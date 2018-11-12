@@ -1,0 +1,21 @@
+- name: Create a AWS instance
+  hosts: localhost
+  gather_facts: False
+  vars:
+    keypair: Ansible 
+    instance_type: t2.micro
+    security_group: Home test
+    image: ami-e24b7d9d
+    region: us-east-1
+  tasks:
+    - name: Launch instance
+      ec2:
+         key_name: "{{ keypair }}"
+         group: "{{ security_group }}"
+         instance_type: "{{ instance_type }}"
+         image: "{{ image }}"
+         wait: true
+         region: "{{ region }}"
+         aws_access_key: AKIAJE5R5ZYAFFMAPHEQ
+         aws_secret_key: 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
+      register: ec2

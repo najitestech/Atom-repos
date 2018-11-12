@@ -1,0 +1,14 @@
+---
+- hosts: test-server1
+  become: true
+  vars:
+    vault_url: http://127.0.0.1:8200
+    vault_token: KPrY+EBcQRMz/BuH+t2aVC4zH9U4DqysFiZ6otY9+eY6
+    vault_keys: "{{ lookup('hashi_vault', 'secret=secret/ansible token={{ vault_token }} url={{ vault_url }}') }}"
+  tasks:
+  - name: Adding user
+    user:
+      name: iphone
+      password: "{{ vault_keys }}"
+      shell: /home/
+      append: yes

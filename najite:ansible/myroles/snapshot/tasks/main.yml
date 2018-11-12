@@ -1,0 +1,16 @@
+---
+- name: Take snapshot of a VM using quiesce and memory flag on
+  vmware_guest_snapshot:
+    hostname: "{{ hostname }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    datacenter: "{{ datacenter }}"
+    uuid:
+    name: "{{ vm_name }}"
+    folder: /Datacenter1/Devops
+    state: present
+    snapshot_name: main_vm_snap_0001
+    quiesce: True
+    memory_dump: True
+    validate_certs: False
+  delegate_to: localhost

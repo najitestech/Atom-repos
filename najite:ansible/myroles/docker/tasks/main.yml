@@ -1,0 +1,72 @@
+---
+- name: installing updates
+  yum:
+    update_cache=yes
+    name=*
+    state=latest
+
+- name: "Installing Docker Prerequisite packages"
+  yum:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+  - yum-utils
+  - device-mapper-persistent-data
+  - lvm2
+
+- name: "Configuring docker-ce repo"
+  get_url:
+    url: https://download.docker.com/linux/centos/docker-ce.repo
+    dest: /etc/yum.repos.d/docker-ce.repo
+    mode: 0644
+
+- name: Add Container-selinux
+  yum:
+      name: http://mirror.centos.org/centos/7/extras/x86_64/Packages/container-selinux-2.42-1.gitad8f0f7.el7.noarch.rpm
+      state: present
+
+- name: " Installing Docker latest version"
+  yum:
+    name: docker-ce #-17.09.1.ce-1.el7.centos
+    state: present
+
+- name: " Starting and Enabling Docker service"
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Allowing port 8080
+  firewalld:
+    port: 8080/tcp
+    permanent: true
+    state: enabled
+  tags: port
+
+- name: Allowing http service
+  firewalld:
+    service: "{{ item }}"
+    permanent: true
+    state: enabled
+  with_items:
+    - http
+    - https
+  tags: http
+
+- name: start the firewalld service
+  service: name=firewalld state=started
+  tags: firewalld
+
+- name: Intalling Rancher
+  command: docker run -d --restart=unless-stopped -p 8080:8080 rancher/server:stable
+    state=latest
+  become: yes
+  tags: rancher
+
+- name: " ReStarting and Enabling Docker service"
+  service:
+     name: docker
+     state: started
+
+- debug:
+    msg: DOCKER ENGINE AND RANCHER CONTAINER INSTALLED SUCCESSFULLY!!!
