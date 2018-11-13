@@ -1,0 +1,30 @@
+---
+- name: Patitioning the disk on all server
+  parted:
+    device: /dev/sdb
+    number: 1
+    state: present
+  tags: fdisk
+
+#- name: Create Physical Volume on server
+#  lvg:
+#    vg: vg.services
+#    pvs: /dev/sdb1
+#    pesize: 767     #This is 3 GB in size
+ # tags: pvcreate
+
+- name: Create Physical Volume on server
+  script: /home/najite/bash-scripts/pv.sh
+  tags: pvcreate
+
+- name: Adding physical volume to disk
+  script: /home/najite/bash-scripts/vg.sh
+  tags: vgextend
+
+- name: Extending logical volume
+  script: /home/najite/bash-scripts/lv.sh
+  tags: lvextend
+
+- debug:
+    msg: DISK HAS BEEN SUCCESUFLLY EXTENDED ,CONCRATULATIONS!!!
+  tags: msg

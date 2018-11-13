@@ -1,0 +1,30 @@
+---
+- name: Patitioning the disk on all server
+  parted:
+    device: /dev/sdb
+    number: 1
+    state: present
+  tags: fdisk
+
+- name: vgcreate
+  lvg:
+    vg: vgdata
+    pvs: /dev/sdb1
+
+- name: lvcreate
+  lvol:
+    vg: vgdata
+    lv: dataone
+    size: 1500M
+
+- name: create file system
+  filesystem:
+    fstype: ext4
+    dev: /dev/vgdata/dataone
+
+- name: mount logical volume
+  mount:
+    name: /lvdata
+    src: /dev/vgdata/dataone
+    fstype: ext4
+    state: mounted
