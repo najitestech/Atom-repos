@@ -1,0 +1,28 @@
+image: ubuntu:18.04
+varaiables:
+    DEVOPS_NAME:
+
+stages:
+    - Build
+    - Testing
+    - Run
+
+
+build_docker_image:
+       stage: build
+       script:
+             - docker login -u najitesit@gmail.com -p Passwd@ registry.gitlab.com
+             - docker build -t $TEST_NAME
+             - docker push $TEST_NAME
+        tags:
+              - build
+run_docker_image:
+        stage: run
+        script:
+              - docker login -u najitesit@gmail.com -p Passwd@ registry.gitlab.com
+              - docker pull $TEST_NAME
+              - docker kill $( docker ps -q) || true
+              - docker rm $( docker ps -a -q) || true
+              - docker run -dt -p 8080:80 --name gitlabCICDContainer $TEST_NAME
+        tags:
+              - run

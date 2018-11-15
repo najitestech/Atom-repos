@@ -1,44 +1,8 @@
 #!/main.tf by Najite.
-provider "vsphere" {
-  user           = "${var.user_name}"
-  password       = "${var.password}"
-  vsphere_server = "${var.vsphere_server}"
-  allow_unverified_ssl = true
-}
-
-data "vsphere_datacenter" "dc" {
-  name = "Datacenter2"
-}
-
-data "vsphere_datastore" "datastore" {
-  name          = "Homedata2"
-  datacenter_id = "${data.vsphere_datacenter.dc.id}"
-}
-
-data "vsphere_compute_cluster" "cluster" {
-  name          = "Cluster2"
-  datacenter_id = "${data.vsphere_datacenter.dc.id}"
-}
-
-data "vsphere_network" "network" {
-  name          = "VM Network"
-  datacenter_id = "${data.vsphere_datacenter.dc.id}"
-}
-
-data "vsphere_virtual_machine" "template" {
-  name          = "Tmp1"
-  datacenter_id = "${data.vsphere_datacenter.dc.id}"
-}
-
-data "vsphere_resource_pool" "Production" {
-  name          = "Production-center"
-  datacenter_id = "${data.vsphere_datacenter.dc.id}"
-}
-
-resource "vsphere_virtual_machine" "Test1" {
+resource "vsphere_virtual_machine" "Test" {
   count            = "1"
-  name             = "Test-Testing-${count.index + 1}"
-  resource_pool_id = "${data.vsphere_resource_pool.Production.id}"
+  name             = "Testing-${count.index + 1}"
+  resource_pool_id = "${data.vsphere_resource_pool.Devops.id}"
   datastore_id     = "${data.vsphere_datastore.datastore.id}"
 
   num_cpus = 2
@@ -70,7 +34,7 @@ resource "vsphere_virtual_machine" "Test1" {
       }
 
       network_interface {
-        ipv4_address = "192.168.0.${107 + count.index}"
+        ipv4_address = "192.168.0.${106 + count.index}"
         ipv4_netmask = 24
       }
 

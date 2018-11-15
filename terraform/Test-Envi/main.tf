@@ -11,7 +11,7 @@ data "vsphere_datacenter" "dc" {
 }
 
 data "vsphere_datastore" "datastore" {
-  name          = "Homedata"
+  name          = "Homedata1"
   datacenter_id = "${data.vsphere_datacenter.dc.id}"
 }
 
@@ -26,7 +26,7 @@ data "vsphere_network" "network" {
 }
 
 data "vsphere_virtual_machine" "template" {
-  name          = "Oracle-Linux-tmp"
+  name          = "U18tmp"
   datacenter_id = "${data.vsphere_datacenter.dc.id}"
 }
 
@@ -43,7 +43,7 @@ data "vsphere_resource_pool" "Production" {
 
 resource "vsphere_virtual_machine" "Test1" {
   count            = "1"
-  name             = "Docker-Testing-${count.index + 1}"
+  name             = "Testing-${count.index + 1}"
   resource_pool_id = "${data.vsphere_resource_pool.Devops.id}"
   datastore_id     = "${data.vsphere_datastore.datastore.id}"
 

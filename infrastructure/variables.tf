@@ -1,4 +1,3 @@
-#!/variables.tf
 variable "user_name" {
   default = "administrator@vsphere.local"
 }
