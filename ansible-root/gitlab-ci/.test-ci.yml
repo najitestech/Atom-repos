@@ -1,0 +1,20 @@
+image: ubuntu latest
+
+before_script:
+  - echo "This is my first gitlab run"
+
+build1:
+  stage: build
+  script:
+    - rpm -qa | grep epel-release
+    - rpm -qa | grep figlet
+
+test1:
+  stage: test1
+  script:
+    - yum -y install vim
+
+test2:
+  stage: test
+  script:
+    - watch -nl "date '%D%n%T' | figlet -k"
