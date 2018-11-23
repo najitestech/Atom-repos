@@ -1,0 +1,39 @@
+---
+- name: Create VM from template
+  vmware_guest:
+    validate_certs: False
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_user }}"
+    password: "{{ vcenter_pass }}"
+    esxi_hostname: "{{ esxhost }}"
+    datacenter: Datacenter2 
+    name: "{{ name }}"
+    folder: "{{ folder }}"
+    template: "{{ vmtemplate }}"
+    disk:
+      - size_gb: "{{ disk_size | default(30) }}"
+        type: thin
+        datastore: "{{ datastore }}"
+    networks:
+    - name: VM Network
+      type: static
+      ip: "{{ custom_ip }}"
+      netmask: 255.255.255.0
+      gateway: 192.168.0.1
+      dns_servers:
+      - 192.168.0.1
+      - 8.8.8.8
+    hardware:
+      memory_mb: "{{ vm_memory | default(1024) }}"
+    wait_for_ip_address: True
+    state: present
+  register: newvm
+
+- name: Ansible adding lineinfile to list
+  lineinfile:
+    path: "/ip2.txt"
+    line: "{{ custom_ip }}"
+
+- name: sleep for 30 seconds and continue with play
+  wait_for: timeout=30
+  delegate_to: localhost

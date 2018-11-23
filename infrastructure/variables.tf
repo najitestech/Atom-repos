@@ -7,7 +7,7 @@ variable "password" {
 }
 
 variable "vsphere_server" {
-  default = "192.168.0.207"
+  default = "192.168.0.4"
 }
 
 variable "ip_address" {
