@@ -20,7 +20,7 @@ data "vsphere_network" "network" {
 }
 
 data "vsphere_virtual_machine" "template" {
-  name          = "w8tmp"
+  name          = "ct7tmp"
   datacenter_id = "${data.vsphere_datacenter.dc.id}"
 }
 

@@ -22,7 +22,7 @@ resource "vsphere_virtual_machine" "Test1" {
 
   disk {
     label            = "disk0"
-    size             = "30"
+    size             = "32"
     eagerly_scrub    = "${data.vsphere_virtual_machine.template.disks.0.eagerly_scrub}"
     thin_provisioned = "${data.vsphere_virtual_machine.template.disks.0.thin_provisioned}"
   }

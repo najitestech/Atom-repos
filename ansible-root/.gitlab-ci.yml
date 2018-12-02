@@ -1,0 +1,36 @@
+image:
+  name: hashicorp/terraform:light
+  entrypoint:
+    - '/usr/bin/env'
+    - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/sbin:/bin'
+
+before_script:
+  - terraform --version
+  - terraform init
+
+stages:
+    - build
+    - validate
+    - plan
+    - apply
+
+build:
+    stage: build
+    script:
+        - ./variables.tf
+    #    - ./main.tf 
+
+validate:
+    stage: validate
+    script:
+        - terraform testing -var-file=./main.ft
+
+plan:
+    stage: plan
+    script:
+        - terraform testing -var-file=./main.ft
+
+apply:
+    stage: apply
+    script:
+        - terraform testing -var-file=./main.ft

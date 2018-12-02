@@ -1,0 +1,44 @@
+image:
+  name: hashicorp/terraform:light
+
+before_script:
+  - yum -y update
+  - terraform init
+
+stages:
+    - testing
+    - validate
+    - plan
+    - apply
+
+testing:
+    stage: testing
+    script:
+        - terraform testing -var-file=./variables.tf
+
+validate:
+    stage: validate
+    script:
+        - terraform testing -var-file=./main.ft
+    dependancies:
+        - testing
+    paths:
+        - planfile
+
+plan:
+    stage: plan
+    script:
+        - terraform testing -var-file=./main.ft
+    dependancies:
+        - validate
+    paths:
+        - planfile
+
+apply:
+    stage: apply
+    script:
+        - terraform testing -var-file=./main.ft
+    dependancies:
+        - plan
+    paths:
+        - planfile

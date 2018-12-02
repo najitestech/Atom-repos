@@ -1,0 +1,46 @@
+image:
+  name: hashicorp/terraform:light
+  entrypoint:
+    - '/usr/bin/env'
+    - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/sbin:/bin'
+
+before_script:
+  - terraform --version
+  - terraform init
+  - uptime
+  - df -h
+
+after_script:
+  - mkdir -p /root/Devops-tools
+  - apt -y update
+
+stages:
+  - validate
+  - plan
+  - apply
+  - destroy
+
+validate:
+  stage: validate
+  script:
+    - terraform validate
+
+plan:
+  stage: plan
+  script:
+    - terraform plan
+
+apply:
+  stage: apply
+  script:
+    - terraform  apply --auto-approve
+  dependencies:
+    - plan
+  when: manual
+
+destroy:
+  stage: destroy
+  script:
+    - terraform  destroy -target google_compute_instance.ubuntu --auto-approve
+    - terraform  destroy -target google_compute_instance.Centos--auto-approve
+  when: delayed

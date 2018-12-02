@@ -1,10 +1,10 @@
 ---
-vcenter_hostname: 192.168.0.207
+vcenter_hostname: 192.168.0.4
 vcenter_user: administrator@vsphere.local
 vcenter_pass: Passwd@123
-esxhost: 192.168.0.2
-datastore: Homedata2
-custom_ip: 192.168.0.86
+esxhost: 192.168.0.205
+datastore: Homedata1
+custom_ip: 192.168.0.85
 vmtemplate: u18tmp
 name: "Ansible-test2"
 notes: Ansible :Test

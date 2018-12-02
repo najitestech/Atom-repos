@@ -1,15 +1,16 @@
 {
     "protocol": "sftp",
-    "host": "192.168.0.36",
+    "host": "192.168.0.119",
     "port": 22,
     "user": "root",
     "pass": "Passwd@",
     "promptForPass": false,
-    "remote": "/root/Test-Envi",
+    "remote": "/var/lib/projects
     "local": "",
     "secure": false,
     "secureOptions": null,
-    "connTimeout": 10000,pasvTimeout": 10000,
+    "connTimeout": 10000,
+    "pasvTimeout": 10000,
     "keepalive": 10000,
     "watch": [],
     "watchTimeout": 500
